@@ -2,13 +2,13 @@ import { PageInterface } from '../../pageInterface';
 
 export const Silentquill: PageInterface = {
   name: 'Armageddon',
-  domain: 'https://www.silentquill.net',
+  domain: 'https://silentquill.net',
   languages: ['English'],
   type: 'manga',
   urls: {
-    match: ['*://www.silentquill.net/*'],
+    match: ['*://silentquill.net/*', '*://www.silentquill.net/*'],
   },
-  search: 'https://www.silentquill.net/?s={searchtermPlus}',
+  search: 'https://silentquill.net/search/?q={searchtermPlus}',
   sync: {
     isSyncPage($c) {
       return $c
@@ -52,20 +52,10 @@ export const Silentquill: PageInterface = {
     },
     readerConfig: [
       {
-        current: {
-          selector: '#select-paged option:checked',
-          property: 'text',
-          regex: '(\\d+)/\\d+',
-          group: 1,
-          mode: 'prop',
-        },
-        total: {
-          selector: '#select-paged option:checked',
-          property: 'text',
-          regex: '\\d+/(\\d+)',
-          group: 1,
-          mode: 'prop',
-        },
+        current: $c =>
+          $c.querySelector('#select-paged').selectedText().regex('(\\d+)/\\d+', 1).number().run(),
+        total: $c =>
+          $c.querySelector('#select-paged').selectedText().regex('\\d+/(\\d+)', 1).number().run(),
       },
     ],
   },

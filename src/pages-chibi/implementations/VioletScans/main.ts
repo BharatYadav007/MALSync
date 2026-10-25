@@ -2,13 +2,13 @@ import { PageInterface } from '../../pageInterface';
 
 export const VioletScans: PageInterface = {
   name: 'VioletScans',
-  domain: 'https://violetscans.org',
+  domain: 'https://violetmanga.com',
   languages: ['English'],
   type: 'manga',
   urls: {
-    match: ['*://violetscans.org/*'],
+    match: ['*://violetmanga.com/*', '*://violetscans.org/*'],
   },
-  search: 'https://violetscans.org/?s={searchtermPlus}',
+  search: 'https://violetmanga.com/?s={searchtermPlus}',
   sync: {
     isSyncPage($c) {
       return $c
@@ -40,18 +40,21 @@ export const VioletScans: PageInterface = {
     },
     readerConfig: [
       {
-        current: {
-          selector: '#select-paged option:selected',
-          mode: 'text',
-          regex: '(\\d+)/(\\d+)$',
-          group: 1,
-        },
-        total: {
-          selector: '#select-paged option',
-          mode: 'text',
-          regex: '(\\d+)/(\\d+)$',
-          group: 2,
-        },
+        current: $c =>
+          $c
+            .querySelector('#select-paged')
+            .selectedText()
+            .regex('(\\d+)/(\\d+)$', 1)
+            .number()
+            .run(),
+        total: $c =>
+          $c
+            .querySelector('#select-paged option')
+            .text()
+            .trim()
+            .regex('(\\d+)/(\\d+)$', 2)
+            .number()
+            .run(),
       },
     ],
   },

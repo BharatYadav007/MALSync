@@ -2,13 +2,13 @@ import { PageInterface } from '../../pageInterface';
 
 export const Madarascans: PageInterface = {
   name: 'Madarascans',
-  domain: 'https://madarascans.com',
+  domain: 'https://madarascans.net',
   languages: ['English'],
   type: 'manga',
   urls: {
-    match: ['*://madarascans.com/*'],
+    match: ['*://madarascans.net/*', '*://madarascans.org/*', '*://madarascans.com/*'],
   },
-  search: 'https://madarascans.com/?s={searchtermPlus}',
+  search: 'https://madarascans.net/?s={searchtermPlus}',
   sync: {
     isSyncPage($c) {
       return $c
@@ -41,18 +41,20 @@ export const Madarascans: PageInterface = {
     },
     readerConfig: [
       {
-        current: {
-          selector: '#select-paged option:selected',
-          mode: 'text',
-          regex: '(\\d+)/(\\d+)$',
-          group: 1,
-        },
-        total: {
-          selector: '#select-paged option:selected',
-          mode: 'text',
-          regex: '(\\d+)/(\\d+)$',
-          group: 2,
-        },
+        current: $c =>
+          $c
+            .querySelector('#select-paged')
+            .selectedText()
+            .regex('(\\d+)/(\\d+)$', 1)
+            .number()
+            .run(),
+        total: $c =>
+          $c
+            .querySelector('#select-paged')
+            .selectedText()
+            .regex('(\\d+)/(\\d+)$', 2)
+            .number()
+            .run(),
       },
     ],
   },

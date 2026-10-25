@@ -6,7 +6,14 @@ export const Kagane: PageInterface = {
   languages: ['English'],
   type: 'manga',
   urls: {
-    match: ['*://kagane.org/*'],
+    match: [
+      '*://kagane.org/*',
+      '*://kagane.si/*',
+      '*://kagane.cx/*',
+      '*://kagane.net/*',
+      '*://kagane.moe/*',
+      '*://kagane.to/*',
+    ],
   },
   search: 'https://kagane.org/search?q={searchtermPlus}',
   sync: {
@@ -17,14 +24,15 @@ export const Kagane: PageInterface = {
     },
     getTitle($c) {
       return $c
-        .querySelector('[name="series-title"]')
+        .querySelector('[property="og:image:alt"]')
         .ifNotReturn()
         .getAttribute('content')
         .trim()
         .run();
     },
     getIdentifier($c) {
-      return $c.url().urlPart(4).run();
+      // series urls can be prefixed with a slug: /series/ichi-the-witch-<uuid>
+      return $c.url().urlPart(4).regex(UuidRegex, 1).run();
     },
     getOverviewUrl($c) {
       return $c.url().replaceRegex('/reader.*', '').urlAbsolute().run();
@@ -40,21 +48,18 @@ export const Kagane: PageInterface = {
     },
     getEpisode($c) {
       return $c
-        .coalesce(
-          $c
-            .querySelector('[name="chapter-title"]')
-            .getAttribute('content')
-            .regexAutoGroup(ChRegex)
-            .run(),
-          $c.querySelector('[name="chapter-number"]').getAttribute('content').run(),
-        )
+        .querySelector('[property="og:title"]')
+        .getAttribute('content')
+        .regexAutoGroup(ChRegex)
+        .ifNotReturn()
         .number()
         .run();
     },
     getVolume($c) {
       return $c
-        .querySelector('[name="volume-number"]')
+        .querySelector('[property="og:title"]')
         .getAttribute('content')
+        .regexAutoGroup(VolRegex)
         .ifNotReturn()
         .number()
         .run();
@@ -62,9 +67,17 @@ export const Kagane: PageInterface = {
     readerConfig: [
       {
         current: $c =>
-          $c.querySelector('.relative[aria-valuenow]').getAttribute('aria-valuenow').number().run(),
+          $c
+            .querySelector('[role="progressbar"][aria-valuenow]')
+            .getAttribute('aria-valuenow')
+            .number()
+            .run(),
         total: $c =>
-          $c.querySelector('.relative[aria-valuenow]').getAttribute('aria-valuemax').number().run(),
+          $c
+            .querySelector('[role="progressbar"][aria-valuenow]')
+            .getAttribute('aria-valuemax')
+            .number()
+            .run(),
       },
     ],
   },
@@ -86,30 +99,28 @@ export const Kagane: PageInterface = {
       return $c.this('sync.getIdentifier').run();
     },
     getImage($c) {
-      return $c.this('sync.getImage').run();
+      return $c
+        .querySelector('button[class*="aspect-"] img')
+        .ifNotReturn()
+        .getAttribute('src')
+        .replaceRegex('/compressed.*', '')
+        .urlAbsolute()
+        .run();
     },
     uiInjection($c) {
-      return $c
-        .querySelector('a[class*=text-primary] h1')
-        .closest('.items-baseline')
-        .parent()
-        .uiAfter()
-        .run();
+      return $c.querySelector('h1').uiAfter().run();
     },
   },
   list: {
     elementsSelector($c) {
-      return $c.querySelector('.space-y-3').ifNotReturn().findAll('.grid > div').run();
+      return $c.querySelectorAll('div[id^="chapter-"]').run();
+    },
+    elementUrl($c) {
+      return $c.find('a[href*="/reader/"]').getAttribute('href').urlAbsolute().run();
     },
     elementEp($c) {
-      return $c
-        .coalesce(
-          // have to put each regexAutoGroup because sometime h4 doesn't provide chapter number for fallback reason.
-          $c.target().find('h4').text().regexAutoGroup(ChRegex).run(),
-          $c.target().find('.font-bold').text().regexAutoGroup(ChRegex).run(),
-        )
-        .number()
-        .run();
+      // the label ("Ch. 12") is localized, so only take the number
+      return $c.find('span.font-semibold').text().regex('(\\d+(?:\\.\\d+)?)', 1).number().run();
     },
   },
   lifecycle: {
@@ -128,11 +139,14 @@ export const Kagane: PageInterface = {
     listChange($c) {
       return $c
         .detectChanges(
-          $c.querySelector('.space-y-3').ifNotReturn().text().run(),
+          $c.querySelectorAll('div[id^="chapter-"]').length().run(),
           $c.trigger().run(),
         )
         .run();
     },
   },
 };
+
 const ChRegex = '(?:Ch\\.|Chapter|Ep\\.|Episode|Round)\\s*(\\d+)|(\\d+)\\.';
+const VolRegex = '(?:Vol\\.|Volume)\\s*(\\d+)';
+const UuidRegex = '([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$';

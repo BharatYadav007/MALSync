@@ -6,7 +6,10 @@ const { getKeys } = require('./utils/keys');
 
 module.exports = {
   entry: {
-    index: path.join(__dirname, '..', 'test/index.ts'),
+    testCode: path.join(__dirname, '..', 'test/index.ts'),
+    // Tooling for test/chibiDev/cli.js
+    chibiDev: path.join(__dirname, '..', 'test/chibiDev/runtime.ts'),
+    chibiDevProxy: path.join(__dirname, '..', 'src/pages-chibi/proxies/requestProxy.ts'),
   },
   module: {
     rules: [
@@ -41,9 +44,14 @@ module.exports = {
       vue: '@vue/runtime-dom',
     },
   },
+  resolveLoader: {
+    alias: {
+      'to-string-loader': require.resolve('./utils/toStringLoader'),
+    },
+  },
   mode: 'development',
   output: {
-    filename: 'testCode.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, '..', 'test', 'dist'),
   },
   plugins: [
@@ -58,6 +66,7 @@ module.exports = {
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: false,
       __MAL_SYNC_KEYS__: JSON.stringify(getKeys()),
+      __IS_FIREFOX__: false,
     }),
   ],
 };

@@ -12,10 +12,8 @@ import { anizm } from './implementations/anizm/main';
 import { toonily } from './implementations/toonily/main';
 import { voidScans } from './implementations/VoidScans/main';
 import { AniXL } from './implementations/AniXL/main';
-import { bato } from './implementations/bato/main';
 import { Crunchyroll } from './implementations/Crunchyroll/main';
 import { animevost } from './implementations/animevost/main';
-import { AnimeKAI } from './implementations/AnimeKAI/main';
 import { FireAnime } from './implementations/FireAnime/main';
 import { WeebCentral } from './implementations/WeebCentral/main';
 import { MangaDemon } from './implementations/MangaDemon/main';
@@ -35,7 +33,6 @@ import { Sadscans } from './implementations/Sadscans/main';
 import { ArvenComics } from './implementations/ArvenComics/main';
 import { FrenchAnime } from './implementations/FrenchAnime/main';
 import { Comikey } from './implementations/Comikey/main';
-import { AuroraScans } from './implementations/AuroraScans/main';
 import { ComicTop } from './implementations/ComicTop/main';
 import { Atsumaru } from './implementations/Atsumaru/main';
 import { Madarascans } from './implementations/Madarascans/main';
@@ -81,7 +78,6 @@ import { MangaSushi } from './implementations/MangaSushi/main';
 import { Comix } from './implementations/Comix/main';
 import { DynastyScans } from './implementations/DynastyScans/main';
 import { LagoonScans } from './implementations/LagoonScans/main';
-import { WeebDex } from './implementations/WeebDex/main';
 import { SetsuScans } from './implementations/SetsuScans/main';
 import { Mgeko } from './implementations/Mgeko/main';
 import { MangaClash } from './implementations/MangaClash/main';
@@ -98,15 +94,30 @@ import { Kuudere } from './implementations/Kuudere/main';
 import { BigSolo } from './implementations/BigSolo/main';
 import { Plex } from './implementations/Plex/main';
 import { allManga } from './implementations/allManga/main';
+import { Mkissa } from './implementations/Mkissa/main';
 import { GaiaFlix } from './implementations/GaiaFlix/main';
 import { AniZone } from './implementations/AniZone/main';
 import { AnimeNexus } from './implementations/AnimeNexus/main';
 import { templeScan } from './implementations/TempleScan/main';
 import { ElfToon } from './implementations/ElfToon/main';
-import { Zoro } from './implementations/Zoro/main';
 import { TeamShadowi } from './implementations/TeamShadowi/main';
 import { TopManhua } from './implementations/TopManhua/main';
+import { DMMTV } from './implementations/DMMTV/main';
 import { Tsukuyomi } from './implementations/Tsukuyomi/main';
+import { HijalaScans } from './implementations/HijalaScans/main';
+import { Jellyfin } from './implementations/Jellyfin/main';
+import { AnimeStream } from './implementations/AnimeStream/main';
+import { MangaFire } from './implementations/MangaFire/main';
+import { AnimesDigital } from './implementations/AnimesDigital/main';
+import { YummyAni } from './implementations/YummyAni/main';
+import { DonghuaStream } from './implementations/DonghuaStream/main';
+import { BSTO } from './implementations/BSTO/main';
+import { FMTeam } from './implementations/FMTeam/main';
+import { BlueSolo } from './implementations/BlueSolo/main';
+import { FlixMomo } from './implementations/FlixMomo/main';
+import { NaszeAnime } from './implementations/NaszeAnime/main';
+import { Chikari } from './implementations/Chikari/main';
+import { MistScans } from './implementations/MistScans/main';
 
 export const pages: { [key: string]: PageInterface } = {
   animeav1,
@@ -121,10 +132,8 @@ export const pages: { [key: string]: PageInterface } = {
   toonily,
   voidScans,
   AniXL,
-  bato,
   Crunchyroll,
   animevost,
-  AnimeKAI,
   FireAnime,
   WeebCentral,
   MangaDemon,
@@ -145,7 +154,6 @@ export const pages: { [key: string]: PageInterface } = {
   ArvenComics,
   FrenchAnime,
   Comikey,
-  AuroraScans,
   ComicTop,
   Atsumaru,
   Madarascans,
@@ -190,7 +198,6 @@ export const pages: { [key: string]: PageInterface } = {
   Comix,
   DynastyScans,
   LagoonScans,
-  WeebDex,
   SetsuScans,
   Mgeko,
   MangaClash,
@@ -208,12 +215,27 @@ export const pages: { [key: string]: PageInterface } = {
   BigSolo,
   Plex,
   allManga,
+  Mkissa,
   GaiaFlix,
   AniZone,
   AnimeNexus,
   templeScan,
   ElfToon,
-  Zoro,
   TeamShadowi,
+  DMMTV,
   Tsukuyomi,
+  HijalaScans,
+  Jellyfin,
+  AnimeStream,
+  MangaFire,
+  AnimesDigital,
+  YummyAni,
+  DonghuaStream,
+  BSTO,
+  FMTeam,
+  BlueSolo,
+  FlixMomo,
+  NaszeAnime,
+  Chikari,
+  MistScans,
 };

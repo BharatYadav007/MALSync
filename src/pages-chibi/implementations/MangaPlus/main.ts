@@ -49,18 +49,22 @@ export const MangaPlus: PageInterface = {
     },
     readerConfig: [
       {
-        current: {
-          mode: 'text',
-          selector: '[class*="Viewer-module_pageNumber"]',
-          regex: '(\\d+) /',
-          group: 1,
-        },
-        total: {
-          mode: 'text',
-          selector: '[class*="Viewer-module_pageNumber"]',
-          regex: '/ (\\d+)',
-          group: 1,
-        },
+        current: $c =>
+          $c
+            .querySelector('[class*="Viewer-module_pageNumber"]')
+            .text()
+            .trim()
+            .regex('(\\d+) /', 1)
+            .number()
+            .run(),
+        total: $c =>
+          $c
+            .querySelector('[class*="Viewer-module_pageNumber"]')
+            .text()
+            .trim()
+            .regex('/ (\\d+)', 1)
+            .number()
+            .run(),
       },
     ],
   },
@@ -76,7 +80,7 @@ export const MangaPlus: PageInterface = {
     },
     getImage($c) {
       return $c
-        .querySelector('[class*="TitleDetailHeader-module_coverImage"]')
+        .querySelector('img[class*="TitleDetailHeader-module_coverImage"]')
         .getAttribute('src')
         .ifNotReturn()
         .run();

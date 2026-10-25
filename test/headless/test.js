@@ -1,8 +1,7 @@
 const { expect } = require('chai');
 const puppeteer = require('puppeteer');
-const { PuppeteerBlocker } = require('@ghostery/adblocker-puppeteer');
+const { openPage, injectTestEnvironment } = require('./browser');
 const path = require('path');
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const fs = require('fs');
 const dir = require('node-dir');
@@ -26,7 +25,7 @@ if (process.env.FILES) {
 // Define global variables
 let browser;
 const debugging = false;
-let headless = OnlyPage ? false : true;
+let headless = OnlyPage && !process.env.CI ? false : true;
 let buildFailed = false;
 const mode = {
   quiet: false,
@@ -358,20 +357,7 @@ function checkIfFolderExists(block, name) {
 
 async function singleCase(block, test, page, testPage, retry = 0) {
   const saveCallback = await PreparePage(block, page, test.url, testPage);
-  const testJquery = () => page.evaluate(() => {
-    if (typeof jQuery === 'undefined') throw 'jquery could not be loaded';
-  })
-
-  await page
-    .addScriptTag({
-      content: fs.readFileSync(`./node_modules/jquery/dist/jquery.min.js`, 'utf8'),
-    })
-    .then(() => {
-      return testJquery();
-    }).catch(async () => {
-      await page.evaluate(fs.readFileSync(`./node_modules/jquery/dist/jquery.min.js`, 'utf8'));
-      await testJquery();
-    });
+  await injectTestEnvironment(page);
 
   const loadContent = await page.evaluate(() => document.body.innerHTML);
 
@@ -379,64 +365,6 @@ async function singleCase(block, test, page, testPage, retry = 0) {
     log(block, 'nginx error', 2);
     throw 'Blocked';
   }
-
-  await page.evaluate(() => console.log(`Adding chrome api`));
-  await page.addScriptTag({
-    content: `
-      window.chrome = {
-        runtime: {
-          onMessage: {
-            addListener: function(callback) {
-              console.log('chrome.runtime.onMessage.addListener', callback);
-            }
-          },
-          sendMessage: function(message, callback) {
-            console.log('chrome.runtime.sendMessage', message, callback);
-          },
-          getURL: function(path) {
-            console.log('chrome.runtime.getURL', path);
-            return '';
-          },
-          getManifest: function() {
-            console.log('chrome.runtime.getManifest');
-            return {
-              version: '10.1.1',
-            };
-          }
-        },
-        storage: {
-          local: {
-            get: function(keys, callback) {
-              console.log('chrome.storage.local.get', keys, callback);
-              callback({});
-              return promise.resolve({});
-            },
-            set: function(items, callback) {
-              console.log('chrome.storage.local.set', items, callback);
-              if (callback) {
-                callback();
-              }
-              return promise.resolve({});
-            }
-          },
-          sync: {
-            get: function(keys, callback) {
-              console.log('chrome.storage.sync.get', keys, callback);
-              callback({});
-              return promise.resolve({});
-            },
-            set: function(items, callback) {
-              console.log('chrome.storage.sync.set', items, callback);
-              if (callback) {
-                callback();
-              }
-              return promise.resolve({});
-            }
-          }
-        },
-      };
-    `,
-  });
 
   await page.evaluate(() => console.log(`Adding script`));
   await page.addScriptTag({ content: script });
@@ -566,19 +494,8 @@ async function loopEl(testPage, headless = true) {
   }
 }
 
-async function openPage(b) {
-  const page = await b.newPage();
-
-  const blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
-  await blocker.enableBlockingInPage(page);
-
-  await page.setViewport({ width: 1920, height: 1080 });
-
-  return page;
-}
-
 async function initTestsArray() {
-  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     dir.readFiles(
       `${__dirname}/../../src/`,
       {
@@ -648,6 +565,15 @@ async function main() {
   const awaitArray = [];
   let running = 0;
   await initTestsArray();
+
+  if (process.env.LIST_PAGES) {
+    const pages = testsArray
+      .filter(t => (t.enabled || typeof t.enabled === 'undefined') && !t.offline)
+      .map(t => t.title);
+    console.log(JSON.stringify(pages));
+    process.exit();
+  }
+
   if (mode.parallel) {
     await getBrowser();
     for (const testPage of testsArray) {
