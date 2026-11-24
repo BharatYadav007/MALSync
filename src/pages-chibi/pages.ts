@@ -112,12 +112,24 @@ import { AnimesDigital } from './implementations/AnimesDigital/main';
 import { YummyAni } from './implementations/YummyAni/main';
 import { DonghuaStream } from './implementations/DonghuaStream/main';
 import { BSTO } from './implementations/BSTO/main';
+import { Aniworld } from './implementations/Aniworld/main';
+import { Shinden } from './implementations/Shinden/main';
+import { ADN } from './implementations/ADN/main';
+import { AnimeKO } from './implementations/AnimeKO/main';
 import { FMTeam } from './implementations/FMTeam/main';
 import { BlueSolo } from './implementations/BlueSolo/main';
 import { FlixMomo } from './implementations/FlixMomo/main';
 import { NaszeAnime } from './implementations/NaszeAnime/main';
+import { Netflix } from './implementations/Netflix/main';
 import { Chikari } from './implementations/Chikari/main';
 import { MistScans } from './implementations/MistScans/main';
+import { AnimesFHD } from './implementations/AnimesFHD/main';
+import { AnimeSaturn } from './implementations/AnimeSaturn/main';
+import { AnimeUnity } from './implementations/AnimeUnity/main';
+import { Dragonroll } from './implementations/Dragonroll/main';
+import { FindAnime } from './implementations/FindAnime/main';
+import { UAni } from './implementations/UAni/main';
+import { AniTube } from './implementations/AniTube/main';
 
 export const pages: { [key: string]: PageInterface } = {
   animeav1,
@@ -232,10 +244,22 @@ export const pages: { [key: string]: PageInterface } = {
   YummyAni,
   DonghuaStream,
   BSTO,
+  Aniworld,
+  Shinden,
+  ADN,
+  AnimeKO,
   FMTeam,
   BlueSolo,
   FlixMomo,
   NaszeAnime,
+  Netflix,
   Chikari,
   MistScans,
+  AnimesFHD,
+  AnimeSaturn,
+  AnimeUnity,
+  Dragonroll,
+  FindAnime,
+  UAni,
+  AniTube,
 };

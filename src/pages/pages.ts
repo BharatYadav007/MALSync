@@ -1,12 +1,10 @@
 import { Mangadex } from './Mangadex/main';
 import { TurkAnime } from './TurkAnime/main';
 import { Emby } from './Emby/main';
-import { Netflix } from './Netflix/main';
 import { Animeflv } from './Animeflv/main';
 import { Jkanime } from './Jkanime/main';
 import { Proxer } from './Proxer/main';
 import { KickAssAnime } from './KickAssAnime/main';
-import { Shinden } from './Shinden/main';
 import { Voiranime } from './Voiranime/main';
 import { VIZ } from './VIZ/main';
 import { AnimeZone } from './AnimeZone/main';
@@ -30,7 +28,6 @@ import { TRanimeizle } from './TRanimeizle/main';
 import { Furyosociety } from './Furyosociety/main';
 import { AnimeId } from './AnimeId/main';
 import { MyAnimeListVideo } from './MyAnimeListVideo/main';
-import { AnimeUnity } from './AnimeUnity/main';
 import { MangaHere } from './MangaHere/main';
 import { MangaFox } from './MangaFox/main';
 import { DesuOnline } from './DesuOnline/main';
@@ -55,7 +52,6 @@ import { ImmortalUpdates } from './ImmortalUpdates/main';
 import { LHTranslation } from './LHTranslation/main';
 import { MangasOrigines } from './MangasOrigines/main';
 import { DisasterScans } from './DisasterScans/main';
-import { Aniworld } from './Aniworld/main';
 import { BetterAnime } from './BetterAnime/main';
 import { BilibiliComics } from './BilibiliComics/main';
 import { MangaReader } from './MangaReader/main';
@@ -67,7 +63,6 @@ import { ToonAnime } from './ToonAnime/main';
 import { ADKami } from './ADKami/main';
 import { Kaguya } from './Kaguya/main';
 import { Hdrezka } from './Hdrezka/main';
-import { ADN } from './ADN/main';
 import { Aniyan } from './Aniyan/main';
 import { Docchi } from './Docchi/main';
 import { Animelon } from './Animelon/main';
@@ -75,7 +70,6 @@ import { AnimeSama } from './AnimeSama/main';
 import { projectsuki } from './projectsuki/main';
 import { AnimeBuff } from './AnimeBuff/main';
 import { AnimeOnegai } from './AnimeOnegai/main';
-import { AnimeKO } from './AnimeKO/main';
 import { AnimeGO } from './AnimeGO/main';
 import { LuciferDonghua } from './LuciferDonghua/main';
 import { NeoxScans } from './NeoxScans/main';
@@ -96,13 +90,11 @@ import { AniDream } from './AniDream/main';
 export const pages = {
   Mangadex,
   TurkAnime,
-  Netflix,
   Animeflv,
   Jkanime,
   Proxer,
   Emby,
   KickAssAnime,
-  Shinden,
   Voiranime,
   VIZ,
   AnimeOdcinki,
@@ -126,7 +118,6 @@ export const pages = {
   Furyosociety,
   AnimeId,
   MyAnimeListVideo,
-  AnimeUnity,
   MangaHere,
   MangaFox,
   DesuOnline,
@@ -151,7 +142,6 @@ export const pages = {
   LHTranslation,
   MangasOrigines,
   DisasterScans,
-  Aniworld,
   BetterAnime,
   BilibiliComics,
   MangaReader,
@@ -163,7 +153,6 @@ export const pages = {
   ADKami,
   Kaguya,
   Hdrezka,
-  ADN,
   Aniyan,
   Docchi,
   Animelon,
@@ -171,7 +160,6 @@ export const pages = {
   projectsuki,
   AnimeBuff,
   AnimeOnegai,
-  AnimeKO,
   AnimeGO,
   LuciferDonghua,
   NeoxScans,

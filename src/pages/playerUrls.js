@@ -33,7 +33,7 @@ module.exports = {
     match: ['*://*.tune.pk/*', ],
   },
   href: {
-    match: ['*://*.href.li/*', '*://*.vk.com/*'],
+    match: ['*://*.href.li/*', '*://*.vk.com/*', '*://*.vk.ru/*', '*://*.vkvideo.ru/*'],
   },
   cloudvideo: {
     match: ['*://*.cloudvideo.tv/*'],
@@ -511,6 +511,11 @@ module.exports = {
       '*://jeremyparticipantanything.com/e/*',
       '*://teresapoliticallearn.com/e/*',
       '*://derricknationtop.com/e/*',
+      '*://ashleyhardat.com/e/*',
+      '*://shanelocaldog.com/e/*',
+      '*://shannoncoldalready.com/e/*',
+      '*://susanexpectcare.com/e/*',
+      '*://caseyseemavoid.com/e/*',
       // auto-voe-replace-dont-remove
     ],
   },

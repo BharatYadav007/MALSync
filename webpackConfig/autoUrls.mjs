@@ -55,7 +55,7 @@ async function miruro() {
 
   const $ = cheerio.load(body);
 
-  const urls = $('nav.domains a.domain')
+  const urls = $('nav.domains .miruro a.domain')
     .map((i, el) => new URL($(el).attr('href')))
     .get();
 
@@ -74,9 +74,13 @@ async function anikoto() {
 
   const $ = cheerio.load(body);
 
-  const urls = $('div.endpoint-row > div.endpoint-url > a')
+  const urls = $('main a.domain')
     .map((i, el) => new URL($(el).attr('href')))
     .get();
+
+  if (!urls.length) {
+    throw new Error('No domains found');
+  }
 
   let formattedUrls = [];
   for (const url of urls) {
